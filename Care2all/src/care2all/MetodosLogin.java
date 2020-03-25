@@ -32,7 +32,7 @@ public class MetodosLogin {
         //System.out.println("SELECT * FROM usuarios WHERE usuario='"+usuario+"' AND password='"+password+"'");
            String SSQL="SELECT * FROM usuarios WHERE usuario='"+usuario+"' AND password='"+password+"'";
            String SSQL1="SELECT acceso FROM usuarios WHERE usuario='"+usuario+"' AND password='"+password+"'";
-          
+         
            
         try {
             Statement st=con.createStatement();
