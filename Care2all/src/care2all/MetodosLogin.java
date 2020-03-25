@@ -6,6 +6,7 @@
 package care2all;
 
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.*;
 import java.util.logging.Level;
@@ -20,7 +21,7 @@ public class MetodosLogin {
    
    //ConexionSQL metodospool = new Pool();
     
-    public void validar_ingreso(){
+    public void validar_ingreso() throws IOException{
        
         ConexionSQL cSQL=new ConexionSQL();
         Connection con=cSQL.co;

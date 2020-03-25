@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -21,13 +22,11 @@ import javax.swing.JOptionPane;
  */
 public class PacienteGeneral extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PacienteGeneral
-     */
+    
     
       
        
-    public PacienteGeneral() throws IOException {
+    public PacienteGeneral()  {
       
         initComponents();
          rsscalelabel.RSScaleLabel.setScaleLabel(jLabel1, "C:\\txtcare2all\\Logo-web.gif");
@@ -35,40 +34,37 @@ public class PacienteGeneral extends javax.swing.JFrame {
           ConexionSQL cSQL=new ConexionSQL();
         Connection con=cSQL.co;
         String usuario=InicioGeneral.txtUsuario.getText();
-        System.out.println("usuario"+usuario);
+       // System.out.println("usuario"+usuario);
          String SQL="SELECT * FROM pacientes WHERE nombre='"+usuario+"'";
-        String SQL1="SELECT tutores.nombre, tutores.apellidos FROM pacientes INNER JOIN tutores ON pacientes.id = tutores.paciente WHERE nombre='"+usuario+"'";
-        
+        String SQL1="SELECT tutores.nombre, tutores.apellidos FROM pacientes INNER JOIN tutores ON pacientes.id = tutores.paciente WHERE pacientes.nombre='"+usuario+"'";
+        System.out.println(SQL1);
      
         try {
              Statement st=con.createStatement();
              ResultSet rs=st.executeQuery(SQL);
-             ResultSet rs1=st.executeQuery(SQL1);
+             Statement st2=con.createStatement();
+             ResultSet rs1=st2.executeQuery(SQL1);
              while (rs.next()) {
                
-                // String datostutor=rs1.getString("tutores.nombre");
-                // System.out.print(rs.getString(1));
+                
             String nombre = rs.getString("nombre");
             String apellidos = rs.getString("apellidos");
             String direccion = rs.getString("direccion");
             int edad=rs.getInt("edad"); 
             String telefono=rs.getString("telefono");
             Blob foto=rs.getBlob("foto");
-            
+          
             jTextField1.setText(nombre);
             jTextField2.setText(apellidos);
-            jTextField3.setText(Integer.toString(edad));            ;
+            jTextField3.setText(Integer.toString(edad));
             jTextField4.setText(direccion);
-            jTextField5.setText(telefono); 
-            
-            jComboBox1.addItem(rs1.getString("tutores.nombre"));
-            jComboBox1.addItem(rs.getString("tutores.apellidos"));
+            jTextField5.setText(telefono);    
+             Image i;
+                 
+                     i = javax.imageio.ImageIO.read(foto.getBinaryStream());
+                 
            
-            
-            Image i= javax.imageio.ImageIO.read(foto.getBinaryStream());
-           
-       ImageIcon image = new ImageIcon(i);
-        
+             ImageIcon image = new ImageIcon(i);
        Icon icono;
                  icono = new ImageIcon(image.getImage().getScaledInstance(
                          jLabel11.getWidth(),
@@ -76,16 +72,31 @@ public class PacienteGeneral extends javax.swing.JFrame {
                          Image.SCALE_DEFAULT));
         image.setImage(i);
         jLabel11.setIcon(icono);
-          //  this.jTextField1.setText(rs.getString("nombre"));
-             }
-            
+        
+        
+                while (rs1.next()) {
+                    ArrayList<String> lista=new ArrayList<String>();
+                    lista.add(rs1.getString("tutores.nombre"));
+                    System.out.println(lista.size());
+                    for(int j=0;j<lista.size();j++){
+                        System.out.println(lista.get(j));
+                        jComboBox1.addItem(lista.get(j));
+                       
+                    }
+                   
+                } 
+                
+                 }
+                
         } catch (SQLException ex) {
-            Logger.getLogger(MetodosLogin.class.getName()).log(Level.SEVERE, null, ex);
-            //JOptionPane.showMessageDialog(null, "Error al realizar la consulta");
+            Logger.getLogger(PacienteGeneral.class.getName()).log(Level.SEVERE, null, ex);
         }
-             
+    
+    catch (IOException ex) {
+                     Logger.getLogger(PacienteGeneral.class.getName()).log(Level.SEVERE, null, ex);
+                 }
     }
-
+             
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -159,8 +170,7 @@ public class PacienteGeneral extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Tutor/es : ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setEnabled(false);
+        jComboBox1.setFocusCycleRoot(true);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -243,7 +253,7 @@ public class PacienteGeneral extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 200, 820, 210));
@@ -355,11 +365,7 @@ public class PacienteGeneral extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new PacienteGeneral().setVisible(true);
-                } catch (IOException ex) {
-                    Logger.getLogger(PacienteGeneral.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new PacienteGeneral().setVisible(true);
             }
         });
     }
