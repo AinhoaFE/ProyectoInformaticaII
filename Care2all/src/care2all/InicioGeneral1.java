@@ -6,6 +6,9 @@
 package care2all;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -195,17 +198,21 @@ public class InicioGeneral1 extends javax.swing.JFrame {
     
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        MetodosLogin ml=new MetodosLogin();
-        ml.validar_ingreso();
-        /* if(ml.validar_ingreso()==1){
-        this.dispose();
-        JOptionPane.showMessageDialog(null, "Bienvenido " + txtUsuario.getText() , "Inicio sesión", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            // TODO add your handling code here:
+            MetodosLogin ml=new MetodosLogin();
+            ml.validar_ingreso();
+            /* if(ml.validar_ingreso()==1){
+            this.dispose();
+            JOptionPane.showMessageDialog(null, "Bienvenido " + txtUsuario.getText() , "Inicio sesión", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else {
+            JOptionPane.showMessageDialog(null, "Clave y/o usuario incorrecto " , "Inicio sesión", JOptionPane.ERROR_MESSAGE);
+            }
+            */
+        } catch (IOException ex) {
+            Logger.getLogger(InicioGeneral1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else {
-        JOptionPane.showMessageDialog(null, "Clave y/o usuario incorrecto " , "Inicio sesión", JOptionPane.ERROR_MESSAGE);
-        }
-         */
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

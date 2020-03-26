@@ -7,6 +7,9 @@ package care2all;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -167,8 +170,12 @@ public class InicioGeneral extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
          MetodosLogin ml=new MetodosLogin();
-        ml.validar_ingreso();
-         this.setVisible(false);
+        try {
+            ml.validar_ingreso();
+            this.setVisible(false);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioGeneral.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
    
